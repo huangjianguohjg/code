@@ -23,17 +23,16 @@ const instructions = Platform.select({
 type Props = {};
 export default class App extends Component<Props> {
     componentDidMount(){
-        codePush.sync({
-            updateDialog: {
-                appendReleaseDescription: true,
-                descriptionPrefix:'\n\n更新内容：\n',
-                title:'更新',
-                mandatoryUpdateMessage:'',
-                mandatoryContinueButtonLabel:'更新',
-            },
-            mandatoryInstallMode:codePush.InstallMode.IMMEDIATE,
-            deploymentKey: CODE_PUSH_PRODUCTION_KEY,
-        });
+        codePush.checkForUpdate()
+            .then((update) => {
+                if (!update) {
+                    console.log("The app is up to date!");
+                    alert('没有');
+                } else {
+                    console.log("An update is available! Should we download it?");
+                    alert('有更新');
+                }
+            });
     }
   render() {
     return (
